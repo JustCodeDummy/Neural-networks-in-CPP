@@ -25,7 +25,7 @@ Matrix& Matrix::operator+=(const Matrix& rhs) {
 	}
 	for (size_t row = 0; row < r_t; row++) {
 		for (size_t col = 0; col < c_t; col++) {
-			this->data_[row][col] += rhs.data_[row][col];
+			this->data_[row *r_t+col] += rhs.data_[row*r_t+col];
 		}
 	}
 	return *this;
@@ -42,7 +42,7 @@ Matrix& Matrix::operator-=(const Matrix& rhs) {
 	}
 	for (size_t row = 0; row < r_t; row++) {
 		for (size_t col = 0; col < c_t; col++) {
-			this->data_[row][col] -= rhs.data_[row][col];
+			this->data_[row*c_t + col] -= rhs.data_[row*c_r + col];
 		}
 	}
 	return *this;
@@ -55,6 +55,14 @@ Matrix& Matrix::operator*=(float scalar) {
 		this->data_[v] *= scalar;
 	}
 	return *this;
+}
+
+float & Matrix::operator()(std::size_t row, std::size_t col) {
+	return data_[row * cols_ + col];
+}
+
+float Matrix::operator()(std::size_t row, std::size_t col) const {
+	return data_[row * cols_ + col];
 }
 
 Matrix& Matrix::operator*=(const Matrix& rhs) {
@@ -78,7 +86,7 @@ Matrix& Matrix::operator*=(const Matrix& rhs) {
 		for (size_t col = 0; col < c_r; col++) {
 			float sum_k = 0;
 			for (size_t k = 0; k < c_t; k++) {
-				sum_k += this->data_[row * c_t + k] * rhs.data_[k * c_r + col];
+				sum_k += (*this)(row, k) * rhs(k, col);
 
 			}
 			 data[row * c_r + col] = sum_k;
