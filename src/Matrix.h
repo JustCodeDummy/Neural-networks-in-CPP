@@ -28,7 +28,7 @@ class Matrix  {
 	private:
 		std::size_t rows_;
 		std::size_t cols_;
-		std::vector<std::vector<float>> data_;
+		std::vector<float> data_;
 };
 
 

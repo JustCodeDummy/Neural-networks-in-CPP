@@ -49,13 +49,10 @@ Matrix& Matrix::operator-=(const Matrix& rhs) {
 }
 
 Matrix& Matrix::operator*=(float scalar) {
-	size_t cols = this->cols();
-	size_t rows = this->rows();
+	size_t size = cols() * rows();
 
-	for (size_t row = 0; row < rows; row++) {
-		for (size_t col = 0; col < cols; col++) {
-			this->data_[row][col] *= scalar;
-		}
+	for (size_t v = 0; v < size; v++) {
+		this->data_[v] *= scalar;
 	}
 	return *this;
 }
@@ -75,15 +72,16 @@ Matrix& Matrix::operator*=(const Matrix& rhs) {
 	if (r_t<1) {
 		throw std::runtime_error("Row count must be a positive integer");
 	}
-	std::vector<std::vector<float>> data(r_t, std::vector<float>(c_r, 0.0f));
+	std::vector<float> data(r_t*c_r, 0.0f);
 
 	for (size_t row = 0; row < r_t; row++) {
-		for (size_t col = 0; col < c_t; col++) {
+		for (size_t col = 0; col < c_r; col++) {
 			float sum_k = 0;
-			for (size_t k = 0; k < r_r; k++) {
-				sum_k += this->data_[row][k] * rhs.data_[k][col];
+			for (size_t k = 0; k < c_t; k++) {
+				sum_k += this->data_[row * c_t + k] * rhs.data_[k * c_r + col];
+
 			}
-			data[row][col] = sum_k;
+			 data[row * c_r + col] = sum_k;
 		}
 	}
 	std::swap(this->data_, data);
