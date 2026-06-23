@@ -43,10 +43,8 @@ bool NeuralNetwork::forward_propagation(const std::vector<float> &input) {
 	}
 
 	layers[0].activation_values = input;
-	for (size_t i = 0; i<layers.size(); i++) {
-		if (!layers[i].forward()) {
-			return false;
-		};
+	for (auto& layer : layers) {
+		layer.forward();
 	}
 
 	return true;

@@ -34,13 +34,14 @@ DenseLayer::DenseLayer(size_t n_in, size_t n_out): in(n_in), out(n_out) {
 
 float activation(float value) {
 	// TODO add other activation functions as well
-	return value < 0 ? 0 : value;
+	return value < 0 ? 0 : value; // ReLU
 }
 
 
 //
 bool DenseLayer::forward() {
-	if (!previous) return false;
+
+	if (!previous) return true; // input layer
 
 	for (size_t neuron = 0; neuron < out; neuron++) {
 		float val = bias[neuron];
