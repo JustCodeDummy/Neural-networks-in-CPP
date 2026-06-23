@@ -13,9 +13,8 @@ DenseLayer::DenseLayer(size_t n_in, size_t n_out): in(n_in), out(n_out) {
 	grad_weights.resize(n_out * n_in);
 	grad_bias.resize(n_out);
 
-	last_input.resize(n_in);
-	last_output.resize(n_out);
-	for (auto& b : last_output) {
+	activation_values.resize(n_out);
+	for (auto& b : activation_values) {
 		b = 0;
 	}
 
@@ -33,10 +32,26 @@ DenseLayer::DenseLayer(size_t n_in, size_t n_out): in(n_in), out(n_out) {
 
 }
 
+float activation(float value) {
+	// TODO add other activation functions as well
+	return value < 0 ? 0 : value;
+}
+
+
 //
-bool DenseLayer::forward() const {
+bool DenseLayer::forward() {
 	if (!previous) return false;
-	// TODO forward propagation -> new activation values
+
+	for (size_t neuron = 0; neuron < out; neuron++) {
+		float val = bias[neuron];
+
+		for (size_t input = 0; input < in; input++) {
+			size_t w = input + neuron * in;
+			val += previous->activation_values[input] * weights[w];
+		}
+		activation_values[neuron] = activation(val);
+	}
+
 	return true;
 }
 

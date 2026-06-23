@@ -28,22 +28,17 @@ class DenseLayer {
 		std::vector<float> grad_bias;    // out
 
 		std::vector<float> activation_values;
-		bool forward() const;
+		bool forward();
 		std::vector<float> delta;
+
 
 	private:
 		void relu_weight_initialization();
 		void sig_weight_initialization();
+	/*
 
+	 */
 
 };
-
-
-
-
-
-
-
-
 
 #endif //NEURALNETWORKSC_DENSELAYER_H
