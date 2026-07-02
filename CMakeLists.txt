@@ -9,4 +9,6 @@ add_executable(NeuralNetworksC main.cpp
         src/DenseLayer.cpp
         src/DenseLayer.h
         src/NeuralNetwork.cpp
-        src/NeuralNetwork.h)
+        src/NeuralNetwork.h
+        src/STATUS.h
+)

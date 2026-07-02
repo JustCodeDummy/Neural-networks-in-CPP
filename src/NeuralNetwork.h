@@ -5,7 +5,7 @@
 #ifndef NEURALNETWORKSC_NEURALNETWORK_H
 #define NEURALNETWORKSC_NEURALNETWORK_H
 #include <vector>
-
+#include "STATUS.h"
 #include "DenseLayer.h"
 
 enum class LOSS_FUNCTION {
@@ -19,12 +19,12 @@ class NeuralNetwork {
 		std::vector<DenseLayer> layers;
 		LOSS_FUNCTION lossFunction = LOSS_FUNCTION::MSE;
 		NeuralNetwork(){};
-		bool compile();
-		bool add_layer(DenseLayer layer);
+		STATUS compile();
+		STATUS add_layer(DenseLayer layer);
 		float learning_rate = .01f;
-		bool forward_propagation(const std::vector<float> &input, std::vector<float>& output);
-		bool fit(const std::vector<float>& X, const std::vector<float>& y);
-		bool back_propagation(std::vector<float>& y);
+		STATUS forward_propagation(const std::vector<float> &input, std::vector<float>& output);
+		STATUS fit(const std::vector<float>& X, const std::vector<float>& y);
+		STATUS back_propagation(std::vector<float>& y);
 
 
 	private:
