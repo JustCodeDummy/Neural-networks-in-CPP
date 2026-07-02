@@ -1,9 +1,8 @@
+#pragma once
 //
 // Created by firep on 23/06/2026.
 //
 
-#ifndef NEURALNETWORKSC_NEURALNETWORK_H
-#define NEURALNETWORKSC_NEURALNETWORK_H
 #include <vector>
 #include "STATUS.h"
 #include "DenseLayer.h"
@@ -41,4 +40,3 @@ class NeuralNetwork {
 };
 
 
-#endif //NEURALNETWORKSC_NEURALNETWORK_H

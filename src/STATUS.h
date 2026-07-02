@@ -1,3 +1,4 @@
+#pragma once
 //
 // Created by firep on 02/07/2026.
 //

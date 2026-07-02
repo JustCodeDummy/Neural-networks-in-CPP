@@ -1,13 +1,14 @@
+#pragma once
+
 //
 // Created by firep on 16/06/2026.
 //
 
-#ifndef NEURALNETWORKSC_DENSELAYER_H
 #define NEURALNETWORKSC_DENSELAYER_H
 #include <cstddef>
 #include <vector>
 #include <cmath>
-
+#include "STATUS.h"
 enum class ACTIVATION_FUNCTION {
 	RELU = 0,
 	SIGMOID = 1,
@@ -46,5 +47,3 @@ class DenseLayer {
 	 */
 
 };
-
-#endif //NEURALNETWORKSC_DENSELAYER_H
