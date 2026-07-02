@@ -43,7 +43,7 @@ static void print_vector(const std::vector<float>& vec) {
 	printf("\n");
 }
 
-bool NeuralNetwork::forward_propagation(const std::vector<float>& input) {
+bool NeuralNetwork::forward_propagation(const std::vector<float>& input, std::vector<float>& outarr) {
 	if (!is_compiled) {
 		std::cerr << "Neural network must be compiled first" << std::endl;
 		return false;
@@ -70,14 +70,105 @@ bool NeuralNetwork::forward_propagation(const std::vector<float>& input) {
 			  << layers.back().activation_values[0]
 			  << std::endl;
 
+	outarr = layers.back().activation_values;
+
 	return true;
+}
+
+float NeuralNetwork::Loss_(float x, float y) {
+	switch (lossFunction) {
+		case LOSS_FUNCTION::MSE:
+			return mse_(x, y);
+		case LOSS_FUNCTION::RMSE:
+		default:
+			return x-y;
+	}
+}
+
+float NeuralNetwork::derivative(float value, const ACTIVATION_FUNCTION& activationFunction) {
+	switch (activationFunction) {
+		case ACTIVATION_FUNCTION::SIGMOID:
+			return sig_derivative(value);
+		case ACTIVATION_FUNCTION::RELU:
+			return relu_derivative(value);
+		case ACTIVATION_FUNCTION::TANH:
+			return tanh_derivative(value);
+		default:
+			std::cerr << "Unknown activation function"  << std::endl;
+			return 0;
+	}
+}
+
+// TODO multiple loss and activation functions, currently only MSE and sigmoid
+bool NeuralNetwork::back_propagation(std::vector<float>& y) {
+	// for (size_t i = 0; i < layers.size() - 1; i++) {
+	// 	this->layers[layers.size() - i].grad_neurons[i] = Loss_(X[i], y[i]);
+	// }
+	if (!is_compiled) {
+		std::cerr << "Neural network must be compiled first" << std::endl;
+		exit(-1);
+	}
+
+	if (layers.back().activation_values.size() != y.size()) {
+		std::cerr << "Output layer and expected values array size do not match!" << std::endl;
+		exit(-1);
+	}
+
+	size_t lidx  = layers.size()-1;
+	while (lidx > 0) {
+
+		// if output layer
+		if (lidx == layers.size()-1) {
+			for (size_t neuron = 0; neuron < layers[lidx].activation_values.size(); neuron++) {
+				// assuming sig
+				float out = layers[lidx].activation_values[neuron];
+				float err = mse_derivative(out, y[neuron]);
+				float der = derivative(out, layers[lidx].activationFunction);
+				// derivative of loss function * output value * derivative of activation function * learning_rate
+				float grad = out * err * der; // * learning_rate;
+				layers[lidx].grad_neurons[neuron] = grad;
+			}
+		}else { // hidden layers
+			int nc = layers[lidx+1].activation_values.size(); // next layer neuron count
+			int cc = layers[lidx].activation_values.size(); // current layer neuron count
+			for (size_t neuron=0; neuron < cc; neuron++) {
+				float grad = .0f;
+				float a_der =  derivative(layers[lidx].activation_values[neuron], layers[lidx].activationFunction);
+
+				for (size_t next = 0; next < nc; next++) {
+					size_t widx = neuron + cc * next;
+					grad += layers[lidx+1].grad_neurons[next] * layers[lidx].weights[widx];
+				}
+				layers[lidx].grad_neurons[neuron] = grad * a_der;
+			}
+		}
+		lidx--;
+	}
+
+	return true;
+
+
+
 }
 
 
 bool NeuralNetwork::fit(const std::vector<float>& X, const std::vector<float>& y) {
-	if (!forward_propagation(X)) {
+	std::vector<float> output;
+	if (!forward_propagation(X, output)) {
 		return false;
 	}
+
+	if (y.size() != output.size()) {
+		std::cerr << "Size  mismatch output and expected vectors do not match" << std::endl;
+
+	}
+	std::vector<float> losses = std::vector<float>(output.size(), 0);
+	for (size_t i = 0; i < output.size(); i++) {
+		losses[i] = Loss_(output[i], output[i]);
+	}
+
+
+
 	return true;
 }
 

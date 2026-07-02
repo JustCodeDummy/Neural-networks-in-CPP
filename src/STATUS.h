@@ -1,0 +1,13 @@
+//
+// Created by firep on 02/07/2026.
+//
+
+enum class STATUS {
+	OK = 0,
+	PROPAGATE_FAILED = 1,
+	BACKPROPAGATE_FAILED = 2,
+	SIZE_MISMATCH = 3,
+	NOT_COMPILED = 4,
+	INDEXING_ERROR = 5,
+	VALUE_OUT_OF_RANGE_ERROR = 6,
+};

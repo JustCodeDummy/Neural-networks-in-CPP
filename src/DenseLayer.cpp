@@ -8,6 +8,7 @@
 #include <iostream>
 #include <random>
 
+
 DenseLayer::DenseLayer(size_t n_in, size_t n_out): in(n_in), out(n_out) {
 	weights.resize(n_out * n_in);
 	bias.resize(n_out);
@@ -35,6 +36,7 @@ DenseLayer::DenseLayer(size_t n_in, size_t n_out): in(n_in), out(n_out) {
 
 
 
+
 float DenseLayer::activation(float value) {
 	// TODO add other activation functions as well
 	switch (activationFunction) {
@@ -54,6 +56,14 @@ static void print_vector(const std::vector<float>& vec) {
 	}
 	printf("\n");
 }
+
+
+
+
+
+
+
+
 
 //
 bool DenseLayer::forward(const std::vector<float>& previous_activations) {
