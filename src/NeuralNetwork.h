@@ -23,7 +23,7 @@ class NeuralNetwork {
 		float learning_rate = .01f;
 		STATUS forward_propagation(const std::vector<float> &input, std::vector<float>& output);
 		STATUS fit(const std::vector<float>& X, const std::vector<float>& y);
-		STATUS back_propagation(std::vector<float>& y);
+		STATUS back_propagation(const std::vector<float>& X, const std::vector<float>& y);
 
 
 	private:
@@ -36,7 +36,7 @@ class NeuralNetwork {
 		static float tanh_derivative(float value) {return 1  - std::pow(std::tanh(value), 2);};
 		static float sig_derivative(float value) {float s = sig_(value); return s * (1 - s); };
 		float derivative(float value, const ACTIVATION_FUNCTION& activationFunction);
-
+		bool update_weights(DenseLayer& current, const std::vector<float>& X);
 };
 
 

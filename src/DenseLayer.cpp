@@ -57,14 +57,6 @@ static void print_vector(const std::vector<float>& vec) {
 	printf("\n");
 }
 
-
-
-
-
-
-
-
-
 bool DenseLayer::forward(const std::vector<float>& previous_activations) {
 	if (previous_activations.size() != in) {
 		std::cerr << "Input size mismatch. Expected "

@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <vector>
 
 #include "src/NeuralNetwork.h"
@@ -45,4 +46,5 @@ int main() {
 
 	ann.fit(input, expected);
 
+	return 0;
 }
