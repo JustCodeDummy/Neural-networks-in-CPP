@@ -1,18 +1,21 @@
+#pragma once
+
 //
 // Created by firep on 16/06/2026.
 //
 
-#ifndef NEURALNETWORKSC_DENSELAYER_H
 #define NEURALNETWORKSC_DENSELAYER_H
 #include <cstddef>
 #include <vector>
 #include <cmath>
-
+#include "STATUS.h"
 enum class ACTIVATION_FUNCTION {
 	RELU = 0,
 	SIGMOID = 1,
 	TANH = 2,
 };
+
+
 
 class DenseLayer {
 	public:
@@ -21,7 +24,6 @@ class DenseLayer {
 		DenseLayer(size_t n_in, size_t n_out);
 		ACTIVATION_FUNCTION activationFunction = ACTIVATION_FUNCTION::RELU;
 		DenseLayer* previous = nullptr;
-
 		std::vector<float> weights;      // out x in
 		std::vector<float> bias;         // out
 		std::vector<float> grad_neurons; // out
@@ -30,23 +32,18 @@ class DenseLayer {
 		std::vector<float> activation_values;
 		bool forward(const std::vector<float>& previous_activations);
 		std::vector<float> delta;
-		void backward();
+
 
 	private:
 		void relu_weight_initialization();
 		void sig_weight_initialization();
 		float activation(float value);
 		static float sig_(float value) { return 1 / (1 + exp(-value)); }
-		static float sig_derivative(float value);
 		static float tanh_(float value) { return (exp(value) - exp(-value)) / (exp(value) + exp(-value)); }
-		static float tanh_derivative(float value);
 		static float relu_(float value) { return value < 0 ? 0 : value; }
-		static float relu_derivative(float value);
 
 	/*
 
 	 */
 
 };
-
-#endif //NEURALNETWORKSC_DENSELAYER_H

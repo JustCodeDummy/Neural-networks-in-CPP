@@ -1,9 +1,7 @@
+#pragma once
 //
 // Created by firep on 16/06/2026.
 //
-
-#ifndef NEURALNETWORKSC_MATRIX_H
-#define NEURALNETWORKSC_MATRIX_H
 
 
 #include <vector>
@@ -45,4 +43,3 @@ Matrix operator*(Matrix lhs, const Matrix& rhs);
 
 
 
-#endif //NEURALNETWORKSC_MATRIX_H
