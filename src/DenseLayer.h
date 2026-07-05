@@ -13,6 +13,7 @@ enum class ACTIVATION_FUNCTION {
 	RELU = 0,
 	SIGMOID = 1,
 	TANH = 2,
+	SOFTMAX = 3,
 };
 
 
@@ -35,15 +36,11 @@ class DenseLayer {
 
 
 	private:
-		void relu_weight_initialization();
-		void sig_weight_initialization();
+		void xavier_weight_initialization();
 		float activation(float value);
 		static float sig_(float value) { return 1 / (1 + exp(-value)); }
 		static float tanh_(float value) { return (exp(value) - exp(-value)) / (exp(value) + exp(-value)); }
 		static float relu_(float value) { return value < 0 ? 0 : value; }
 
-	/*
-
-	 */
 
 };

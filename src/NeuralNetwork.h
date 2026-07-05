@@ -9,7 +9,8 @@
 
 enum class LOSS_FUNCTION {
 	MSE,
-	RMSE
+	RMSE,
+	CROSS_ENTROPY,
 };
 
 
@@ -22,9 +23,8 @@ class NeuralNetwork {
 		STATUS add_layer(DenseLayer layer);
 		float learning_rate = .01f;
 		STATUS forward_propagation(const std::vector<float> &input, std::vector<float>& output);
-		STATUS fit(const std::vector<float>& X, const std::vector<float>& y);
 		STATUS back_propagation(const std::vector<float>& X, const std::vector<float>& y);
-
+		STATUS fit(const std::vector<std::vector<float>>& X, const std::vector<std::vector<float>>& y, std::vector<std::vector<float>>& outputs);
 
 	private:
 		bool is_compiled = false;
@@ -37,6 +37,8 @@ class NeuralNetwork {
 		static float sig_derivative(float value) {float s = sig_(value); return s * (1 - s); };
 		float derivative(float value, const ACTIVATION_FUNCTION& activationFunction);
 		bool update_weights(DenseLayer& current, const std::vector<float>& X);
+		STATUS train(const std::vector<float>& X, const std::vector<float>& y, std::vector<float>& out);
+
 };
 
 

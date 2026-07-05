@@ -4,12 +4,17 @@
 #include "src/NeuralNetwork.h"
 
 int main() {
-	std::vector<float> input = {
-		0.5f, 0.1f, 0.7f
+	std::vector<std::vector<float>> input = {
+		{0.5f, 0.1f, 0.7f},
+		{0.5f, 0.1f, 0.7f},
+		{0.5f, 0.1f, 0.7f}
+
 	};
 
-	std::vector<float> expected = { // not yet relevant
-		1.0f
+	std::vector<std::vector<float>> expected = {
+		{1.0f},
+		{1.0f},
+		{1.0f}
 	};
 
 	std::vector<float> weights_0 = {
